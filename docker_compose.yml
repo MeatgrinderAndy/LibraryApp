@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./ClientApp/ClientApp
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=https://backend:7001
+      - NODE_ENV=development
+    volumes:
+      - ./ClientApp/ClientApp:/app
+      - /app/node_modules
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./LibraryApp
+      dockerfile: Dockerfile
+    ports:
+      - "7001:443" 
+      - "5000:80"  
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=LibraryDB;User=sa;Password=YourStrong@Passw0rd;
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=your_password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ${HOME}/.aspnet/https:/https:ro
+      - ./LibraryApp:/app
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+      - ./LibraryApp/Migrations:/migrations
+    networks:
+      - app-network
+
+  migration:
+    build:
+      context: ./LibraryApp
+      dockerfile: Dockerfile
+    command: >
+      /bin/bash -c "
+      echo 'Waiting for SQL Server...' &&
+      until /opt/mssql-tools/bin/sqlcmd -S db -U sa -P 'YourStrong@Passw0rd' -Q 'SELECT 1'; do
+        sleep 1
+      done &&
+      dotnet ef database update --project /app/LibraryApp.csproj
+      "
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+volumes:
+  sql-data:
+
+networks:
+  app-network:
+    driver: bridge
