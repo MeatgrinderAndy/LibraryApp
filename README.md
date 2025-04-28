@@ -5,7 +5,7 @@ Test Task
 dotnet ef database update 
 (SqlServer)
 
-Для запуска фронта в /ClientApp/ClientApp/ прописать:
+Для запуска фронта в /ClientApp прописать в консоль:
 npm run dev
 
 Фронт - http://localhost:3000
