@@ -18,3 +18,5 @@ npm run dev&nbsp;
         
         
 Бэк - http://localhost:7001
+
+docker-compose up --build
