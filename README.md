@@ -1,20 +1,20 @@
 # LibraryApp 
-&nbsp;Test Task&nbsp;&nbsp;
+Test Task
 
-Чтобы использовать миграцию ввести в папке LibraryApp:&nbsp;
-dotnet ef database update &nbsp;
-(SqlServer)&nbsp;
+Чтобы использовать миграцию ввести в папке LibraryApp:
+dotnet ef database update 
+(SqlServer)
 
-Для запуска фронта в /ClientApp прописать в консоль:&nbsp;
-npm run dev&nbsp;
+Для запуска фронта в /ClientApp прописать в консоль:
+npm run dev
 
-Фронт - http://localhost:3000 &nbsp;
-        http://localhost:3000/login - Авторизоваться &nbsp;
-            Админ: admin@library.com &nbsp;
-                   12345 &nbsp;
-            Пользователь: john.doe@example.com &nbsp;
-                          12345 &nbsp;
-        http://localhost:3000/register - Регистрация &nbsp;
+Фронт - http://localhost:3000
+        http://localhost:3000/login - Авторизоваться 
+            Админ: admin@library.com 
+                   12345 
+            Пользователь: john.doe@example.com 
+                          12345 
+        http://localhost:3000/register - Регистрация 
         
         
 Бэк - http://localhost:7001
