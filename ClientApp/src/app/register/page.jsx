@@ -15,7 +15,7 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post('https://localhost:7001/api/auth/register', form)
+      await axios.post('http://localhost:7001/api/auth/register', form)
       router.push('/login')
     } catch (err) {
       setError('Ошибка при регистрации')

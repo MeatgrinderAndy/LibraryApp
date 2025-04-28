@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Text;
 using LibraryApp.Auth.Interface;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 

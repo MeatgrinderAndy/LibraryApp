@@ -24,7 +24,7 @@ export default function BooksPage() {
 
   const fetchBooks = async () => {
     try {
-      const res = await axios.get('https://localhost:7001/api/books')
+      const res = await axios.get('http://localhost:7001/api/books')
       setAllBooks(res.data)
       applyFilters(res.data)
       
@@ -89,7 +89,7 @@ export default function BooksPage() {
 
     try {
       await axios.post(
-        `https://localhost:7001/api/books/${bookId}/borrow`,
+        `http://localhost:7001/api/books/${bookId}/borrow`,
         null,
         {
           headers: {

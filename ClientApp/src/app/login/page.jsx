@@ -15,11 +15,11 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post('https://localhost:7001/api/auth/login', form)
+      const res = await axios.post('http://localhost:7001/api/auth/login', form)
       console.log('Response:', res.data);
       localStorage.setItem('token', res.data.token)
       
-      const testRes = await axios.get('https://localhost:7001/api/books');
+      const testRes = await axios.get('http://localhost:7001/api/books');
       console.log('Protected route response:', testRes.data);
       router.push('/books')
     } catch (err) {

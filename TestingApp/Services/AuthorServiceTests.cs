@@ -1,36 +1,51 @@
 ﻿using LibraryApp.Models;
-using LibraryApp.Repository.Interface;
-using LibraryApp.Services;
-using LibraryApp.DTO;
+using LibraryApp.Application.DTO.Author;
 using Moq;
-using Xunit;
-using System.ComponentModel.DataAnnotations;
+using LibraryApp.Application.Services;
+using LibraryApp.Infrastructure.Repository.Interface;
+using LibraryApp.Application.Mapper;
+using AutoMapper;
+using FluentValidation;
+using LibraryApp.Application.Validators;
 
 namespace LibraryApp.Tests.Services
 {
     public class AuthorServiceTests
     {
         private readonly Mock<IAuthorRepository> _mockRepo;
+        private readonly IMapper _mapper;
         private readonly AuthorService _service;
+        private readonly IValidator<AuthorDto> _validator;
 
         public AuthorServiceTests()
         {
             _mockRepo = new Mock<IAuthorRepository>();
-            _service = new AuthorService(_mockRepo.Object);
+            _validator = new AuthorDtoValidator();
+            _mapper = CreateTestMapper(); 
+
+            _service = new AuthorService(_mockRepo.Object, _mapper, _validator);
+        }
+
+        private IMapper CreateTestMapper()
+        {
+            var configuration = new MapperConfiguration(cfg =>
+                cfg.AddProfile<MappingProfile>());
+
+            return configuration.CreateMapper();
         }
 
         [Fact]
-        public async Task CreateAsync_ShouldValidateDateOfBirth()
+        public async Task CreateAsync_ShouldThrowExceptionOnDate()
         {
             var invalidDto = new AuthorDto
             {
                 FirstName = "Test",
                 LastName = "Author",
-                DateOfBirth = "invalid-date",
+                DateOfBirth = DateOnly.ParseExact("2050-01-01", "yyyy-MM-dd"),
                 Country = "Country"
             };
 
-            await Assert.ThrowsAsync<ValidationException>(() => _service.CreateAsync(invalidDto));
+            await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => _service.CreateAsync(invalidDto));
         }
 
         [Fact]
@@ -40,7 +55,7 @@ namespace LibraryApp.Tests.Services
             {
                 FirstName = "Test",
                 LastName = "Author",
-                DateOfBirth = "2000-01-01",
+                DateOfBirth = DateOnly.ParseExact("2000-01-01", "yyyy-MM-dd"),
                 Country = "Country"
             };
             _mockRepo.Setup(x => x.AddAsync(It.IsAny<Author>()))

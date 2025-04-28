@@ -21,7 +21,7 @@ export default function AddBookPage() {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const res = await axios.get('https://localhost:7001/api/authors')
+        const res = await axios.get('http://localhost:7001/api/authors')
         setAuthors(res.data)
       } catch (err) {
         console.error('Ошибка при загрузке авторов', err)
@@ -40,21 +40,17 @@ export default function AddBookPage() {
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
-      const bookData = {
-        title: form.title,
-        isbn: form.isbn,
-        genre: form.genre,
-        description: form.description,
-        authorId: Number(form.authorId)
-      };
+      formData.append('Title', form.title);
+      formData.append('Isbn', form.isbn);
+      formData.append('Genre', form.genre);
+      formData.append('Description', form.description);
+      formData.append('AuthorId', form.authorId);
   
-      formData.append('bookDto', JSON.stringify(bookData));
-      
       if (image) {
-        formData.append('coverImage', image);
+        formData.append('CoverImage', image);
       }
   
-      await axios.post('https://localhost:7001/api/books', formData, {
+      await axios.post('http://localhost:7001/api/books', formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data'
@@ -67,6 +63,7 @@ export default function AddBookPage() {
       alert('Произошла ошибка при добавлении книги');
     }
   }
+  
 
   if (!isAdmin) {
     return <p style={{ textAlign: 'center', marginTop: 20 }}>Доступ запрещен</p>

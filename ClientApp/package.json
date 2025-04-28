@@ -15,5 +15,5 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
-  "proxy": "https://localhost:7001"
+  "proxy": "http://localhost:7001"
 }

@@ -1,0 +1,71 @@
+
+services:
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Some!Strong@Pass123
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -U sa -P Some!Strong@Pass123 -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./ClientApp
+      dockerfile: Dockerfile
+    container_name: client-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - NEXT_PUBLIC_API_URL=http://backend:7001
+    volumes:
+      - ./ClientApp:/app
+      - /app/node_modules
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./LibraryApp
+      dockerfile: Dockerfile
+    container_name: library-app
+    ports:
+      - "7001:7001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:7001
+      - ConnectionStrings__DefaultConnection=Server=db;Database=LIBRARY;User Id=sa;Password=Some!Strong@Pass123;TrustServerCertificate=True;
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=some_password
+    volumes:
+      - ./LibraryApp:/app
+      - ${HOME}/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - ${HOME}/.aspnet/https:/https:ro
+    depends_on:
+    - db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+  
+volumes:
+  sql-data:

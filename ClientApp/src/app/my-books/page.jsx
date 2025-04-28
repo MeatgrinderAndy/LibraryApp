@@ -24,7 +24,7 @@ export default function MyBooksPage() {
 
   const fetchMyBooks = async () => {
     try {
-      const response = await axios.get('https://localhost:7001/api/books/my', {
+      const response = await axios.get('http://localhost:7001/api/books/my', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -37,7 +37,7 @@ export default function MyBooksPage() {
 
   const handleReturn = async (bookId) => {
     try {
-      await axios.post(`https://localhost:7001/api/books/${bookId}/return`, null, {
+      await axios.post(`http://localhost:7001/api/books/${bookId}/return`, null, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

@@ -29,7 +29,7 @@ export default function BookDetailsPage() {
 
   const fetchBook = async () => {
     try {
-      const res = await axios.get(`https://localhost:7001/api/books/${id}`)
+      const res = await axios.get(`http://localhost:7001/api/books/${id}`)
       setBook(res.data)
       setForm({
         title: res.data.title,
@@ -46,7 +46,7 @@ export default function BookDetailsPage() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`https://localhost:7001/api/books/${id}`, {
+      await axios.delete(`http://localhost:7001/api/books/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -59,16 +59,12 @@ export default function BookDetailsPage() {
   const handleUpdate = async () => {
     try {
       const formData = new FormData();
-      const bookData = {
-        title: form.title, 
-        isbn: form.isbn,
-        genre: form.genre,
-        description: form.description,
-        authorId: form.authorId
-      };
-  
-      formData.append('bookDto', JSON.stringify(bookData));
-      
+      formData.append('Title', form.title);
+      formData.append('Isbn', form.isbn);
+      formData.append('Genre', form.genre);
+      formData.append('Description', form.description);
+      formData.append('AuthorId', form.authorId);
+        
       if (image) {
         formData.append('coverImage', image);
       }
@@ -77,7 +73,7 @@ export default function BookDetailsPage() {
         console.log(key, value);
       }
   
-      const response = await axios.put(`https://localhost:7001/api/books/${id}`, formData, {
+      const response = await axios.put(`http://localhost:7001/api/books/${id}`, formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data'
