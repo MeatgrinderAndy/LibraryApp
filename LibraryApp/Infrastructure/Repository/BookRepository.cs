@@ -1,53 +1,36 @@
-﻿using LibraryApp.Infrastructure.Data;
+﻿using LibraryApp.Domain.Entities;
+using LibraryApp.Infrastructure.Data;
 using LibraryApp.Infrastructure.Repository.Interface;
-using LibraryApp.Models;
+using LibraryApp.Infrastructure.Repository.LibraryApp.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApp.Infrastructure.Repository
 {
-    public class BookRepository : IBookRepository
+    public class BookRepository : BaseRepository<Book>, IBookRepository
     {
-        private readonly AppDbContext _context;
-
-        public BookRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<Book>> GetAllAsync()
-            => await _context.Books
-                .Include(b => b.Author)
-                .ToListAsync();
-
-        public async Task<Book?> GetByIdAsync(int id)
-            => await _context.Books.Include(b => b.Author).FirstOrDefaultAsync(b => b.Id == id);
+        public BookRepository(AppDbContext context) : base(context) { }
 
         public async Task<Book?> GetByIsbnAsync(string isbn)
-            => await _context.Books.Include(b => b.Author).FirstOrDefaultAsync(b => b.ISBN == isbn);
-
-        public async Task AddAsync(Book book)
         {
-            _context.Books.Add(book);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Book book)
-        {
-            _context.Books.Update(book);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var book = await _context.Books.FindAsync(id);
-            if (book != null)
-            {
-                _context.Books.Remove(book);
-                await _context.SaveChangesAsync();
-            }
+            return await _context.Books.Include(b => b.Author)
+                                       .FirstOrDefaultAsync(b => b.ISBN == isbn);
         }
 
         public async Task<IEnumerable<Book>> GetBooksByAuthorId(int authorId)
-            => await _context.Books.Where(b => b.Author.Id == authorId).ToListAsync();
+        {
+            return await _context.Books.Where(b => b.AuthorId == authorId).ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<Book>> GetPagedAsync(int pageNumber, int pageSize)
+        {
+            var items = await _context.Books
+                .OrderBy(b => b.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return items;
+        }
     }
 }
+

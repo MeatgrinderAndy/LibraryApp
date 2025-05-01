@@ -1,9 +1,9 @@
-﻿using LibraryApp.Models;
-using LibraryApp.Infrastructure.Repository.Interface;
+﻿using LibraryApp.Infrastructure.Repository.Interface;
 using LibraryApp.Application.Services.Interface;
 using AutoMapper;
 using LibraryApp.Application.DTO.Book;
 using FluentValidation;
+using LibraryApp.Domain.Entities;
 
 namespace LibraryApp.Services
 {
@@ -132,13 +132,7 @@ namespace LibraryApp.Services
 
         public async Task<IEnumerable<BookDto>> GetBooksPageAsync(int pageNumber, int rowsNumber)
         {
-            int skipAmount = (pageNumber - 1) * rowsNumber;
-            var books = await _repo.GetAllAsync();
-            var booksOnPage = books
-                .OrderBy(b => b.Id)
-                .Skip((pageNumber - 1) * rowsNumber)
-                .Take(rowsNumber)
-                .ToList();
+            var booksOnPage = await _repo.GetPagedAsync(pageNumber, rowsNumber);
             return _mapper.Map<IEnumerable<BookDto>>(booksOnPage);
 
         }

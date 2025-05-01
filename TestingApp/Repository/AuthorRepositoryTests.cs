@@ -1,6 +1,6 @@
 using LibraryApp.Infrastructure.Data;
 using LibraryApp.Infrastructure.Repository;
-using LibraryApp.Models;
+using LibraryApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace TestingApp.Repository

@@ -1,5 +1,4 @@
-﻿using LibraryApp.Models;
-using LibraryApp.Application.DTO.Author;
+﻿using LibraryApp.Application.DTO.Author;
 using Moq;
 using LibraryApp.Application.Services;
 using LibraryApp.Infrastructure.Repository.Interface;
@@ -7,6 +6,7 @@ using LibraryApp.Application.Mapper;
 using AutoMapper;
 using FluentValidation;
 using LibraryApp.Application.Validators;
+using LibraryApp.Domain.Entities;
 
 namespace LibraryApp.Tests.Services
 {

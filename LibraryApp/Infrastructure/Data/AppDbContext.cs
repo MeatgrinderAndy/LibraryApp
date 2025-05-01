@@ -1,4 +1,4 @@
-﻿using LibraryApp.Models;
+﻿using LibraryApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApp.Infrastructure.Data;

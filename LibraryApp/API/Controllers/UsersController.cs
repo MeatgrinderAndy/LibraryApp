@@ -1,5 +1,5 @@
 ﻿using LibraryApp.Application.DTO.Auth;
-using LibraryApp.Auth.Interface;
+using LibraryApp.Application.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 

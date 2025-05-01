@@ -1,7 +1,5 @@
 ﻿using LibraryApp.Application.Services.Interface;
 using LibraryApp.Application.Services;
-using LibraryApp.Auth.Interface;
-using LibraryApp.Auth;
 using LibraryApp.Infrastructure.Repository.Interface;
 using LibraryApp.Infrastructure.Repository;
 using LibraryApp.Application.Validators;

@@ -1,51 +1,20 @@
-﻿using LibraryApp.Infrastructure.Data;
+﻿using LibraryApp.Domain.Entities;
+using LibraryApp.Infrastructure.Data;
 using LibraryApp.Infrastructure.Repository.Interface;
-using LibraryApp.Models;
+using LibraryApp.Infrastructure.Repository.LibraryApp.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApp.Infrastructure.Repository
 {
-    public class AuthorRepository : IAuthorRepository
+    public class AuthorRepository : BaseRepository<Author>, IAuthorRepository
     {
-        private readonly AppDbContext _context;
-
-        public AuthorRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<Author>> GetAllAsync()
-            => await _context.Authors.ToListAsync();
-
-        public async Task<Author?> GetByIdAsync(int id)
-            => await _context.Authors.FirstOrDefaultAsync(a => a.Id == id);
-
-        public async Task AddAsync(Author author)
-        {
-            _context.Authors.Add(author);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Author author)
-        {
-            _context.Authors.Update(author);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var author = await _context.Authors.FindAsync(id);
-            if (author != null)
-            {
-                _context.Authors.Remove(author);
-                await _context.SaveChangesAsync();
-            }
-        }
+        public AuthorRepository(AppDbContext context) : base(context) { }
 
         public async Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(int authorId)
-            => await _context.Books
-                             .Where(b => b.AuthorId == authorId)
-                             .ToListAsync();
+        {
+            return await _context.Books
+                .Where(b => b.AuthorId == authorId)
+                .ToListAsync();
+        }
     }
-
 }

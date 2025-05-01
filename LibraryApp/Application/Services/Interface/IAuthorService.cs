@@ -1,5 +1,5 @@
 ﻿using LibraryApp.Application.DTO.Author;
-using LibraryApp.Models;
+using LibraryApp.Domain.Entities;
 
 namespace LibraryApp.Application.Services.Interface
 {

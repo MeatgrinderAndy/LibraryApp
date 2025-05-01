@@ -1,4 +1,4 @@
-﻿using LibraryApp.Models;
+﻿using LibraryApp.Domain.Entities;
 
 namespace LibraryApp.Infrastructure.Repository.Interface
 {

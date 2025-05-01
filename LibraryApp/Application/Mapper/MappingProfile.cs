@@ -1,7 +1,7 @@
-﻿using LibraryApp.Models;
-using AutoMapper;
+﻿using AutoMapper;
 using LibraryApp.Application.DTO.Author;
 using LibraryApp.Application.DTO.Book;
+using LibraryApp.Domain.Entities;
 
 namespace LibraryApp.Application.Mapper
 {

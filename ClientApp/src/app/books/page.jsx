@@ -22,17 +22,39 @@ export default function BooksPage() {
 
   const router = useRouter()
 
+  const [authorMap, setAuthorMap] = useState({})
+
+  const fetchAuthors = async () => {
+    try {
+      const res = await axios.get('http://localhost:7001/api/authors')
+      const authorDict = {}
+      res.data.forEach(author => {
+        authorDict[author.id] = `${author.firstName} ${author.lastName}`
+      })
+      setAuthorMap(authorDict)
+
+      const names = res.data.map(a => `${a.firstName} ${a.lastName}`)
+      setAuthors(names)
+    } catch (err) {
+      console.error('Ошибка при загрузке авторов', err)
+    }
+  }
+
   const fetchBooks = async () => {
     try {
       const res = await axios.get('http://localhost:7001/api/books')
-      setAllBooks(res.data)
-      applyFilters(res.data)
-      
-      const uniqueGenres = [...new Set(res.data.map(book => book.genre))]
+
+      const enrichedBooks = res.data.map(book => ({
+        ...book,
+        authorName: book.authorName || authorMap[book.authorId] || 'Неизвестно'
+      }))
+
+      setAllBooks(enrichedBooks)
+      applyFilters(enrichedBooks)
+
+      const uniqueGenres = [...new Set(enrichedBooks.map(book => book.genre))]
       setGenres(uniqueGenres)
-      
-      const uniqueAuthors = [...new Set(res.data.map(book => book.authorName))]
-      setAuthors(uniqueAuthors)
+
     } catch (err) {
       console.error('Ошибка при загрузке книг', err)
     }
@@ -70,8 +92,17 @@ export default function BooksPage() {
   }, [])
 
   useEffect(() => {
-    fetchBooks()
-  }, [currentPage])
+    const init = async () => {
+      await fetchAuthors()
+    }
+    init()
+  }, [])
+
+  useEffect(() => {
+    if (Object.keys(authorMap).length > 0) {
+      fetchBooks()
+    }
+  }, [authorMap, currentPage])
 
   useEffect(() => {
     if (allBooks.length > 0) {
@@ -106,6 +137,7 @@ export default function BooksPage() {
   const goToDetails = (bookId) => {
     router.push(`/books/${bookId}`)
   }
+
 
   return (
     <div style={{ maxWidth: 800, margin: 'auto' }}>

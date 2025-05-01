@@ -16,4 +16,4 @@ COPY --from=build /app/publish .
 
 RUN ls -la && pwd
 
-ENTRYPOINT ["dotnet", "./bin/Release/net8.0/LibraryApp.dll"]
+ENTRYPOINT ["dotnet", "./bin/Debug/net8.0/LibraryApp.dll"]

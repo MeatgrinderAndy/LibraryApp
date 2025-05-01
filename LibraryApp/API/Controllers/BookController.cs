@@ -1,5 +1,4 @@
-﻿using LibraryApp.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using LibraryApp.Application.Services.Interface;
