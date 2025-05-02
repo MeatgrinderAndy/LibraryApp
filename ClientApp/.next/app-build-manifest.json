@@ -5,6 +5,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/layout.js"
     ],
+    "/my-books/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/my-books/page.js"
+    ],
     "/books/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -15,10 +20,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/login/page.js"
     ],
-    "/my-books/page": [
+    "/register/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/my-books/page.js"
+      "static/chunks/app/register/page.js"
     ]
   }
 }
