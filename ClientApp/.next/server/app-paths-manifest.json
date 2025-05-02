@@ -1,6 +1,4 @@
 {
-  "/login/page": "app/login/page.js",
-  "/my-books/page": "app/my-books/page.js",
-  "/books/page": "app/books/page.js",
-  "/register/page": "app/register/page.js"
+  "/create/page": "app/create/page.js",
+  "/books/page": "app/books/page.js"
 }

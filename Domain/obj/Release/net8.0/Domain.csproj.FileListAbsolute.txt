@@ -1,0 +1,12 @@
+D:\TestModsen\KantarovichTestModsen\Domain\bin\Release\net8.0\Domain.deps.json
+D:\TestModsen\KantarovichTestModsen\Domain\bin\Release\net8.0\Domain.dll
+D:\TestModsen\KantarovichTestModsen\Domain\bin\Release\net8.0\Domain.pdb
+D:\TestModsen\KantarovichTestModsen\Domain\obj\Release\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\TestModsen\KantarovichTestModsen\Domain\obj\Release\net8.0\Domain.AssemblyInfoInputs.cache
+D:\TestModsen\KantarovichTestModsen\Domain\obj\Release\net8.0\Domain.AssemblyInfo.cs
+D:\TestModsen\KantarovichTestModsen\Domain\obj\Release\net8.0\Domain.csproj.CoreCompileInputs.cache
+D:\TestModsen\KantarovichTestModsen\Domain\obj\Release\net8.0\Domain.sourcelink.json
+D:\TestModsen\KantarovichTestModsen\Domain\obj\Release\net8.0\Domain.dll
+D:\TestModsen\KantarovichTestModsen\Domain\obj\Release\net8.0\refint\Domain.dll
+D:\TestModsen\KantarovichTestModsen\Domain\obj\Release\net8.0\Domain.pdb
+D:\TestModsen\KantarovichTestModsen\Domain\obj\Release\net8.0\ref\Domain.dll

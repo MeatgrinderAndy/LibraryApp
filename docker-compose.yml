@@ -44,8 +44,8 @@ services:
 
   backend:
     build:
-      context: ./LibraryApp
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: API/Dockerfile
     container_name: library-app
     ports:
       - "7001:7001"
@@ -53,15 +53,17 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:7001
       - ConnectionStrings__DefaultConnection=Server=db;Database=LIBRARY;User Id=sa;Password=SomeStrong@Pass123;TrustServerCertificate=True;
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=some_password
+      - Jwt__Key=super-secret-key-so-so-secret-12
+      - Jwt__Secret=super-secret-key-so-so-secret-12
+      - Jwt__Issuer=some-issuer
+      - Jwt__Lifespan=60
     volumes:
-      - ./LibraryApp:/app
-      - ${HOME}/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
-      - ${HOME}/.aspnet/https:/https:ro
+      - .:/app
     depends_on:
-    - db
+      - db
     networks:
       - app-network
+
 
 networks:
   app-network:
